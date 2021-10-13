@@ -1,5 +1,7 @@
-package com.itheima.one;
+package com.itheima.two;
 
+import com.itheima.one.Account;
+import com.itheima.one.AccountDao;
 import org.junit.jupiter.api.Test;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -9,58 +11,58 @@ import java.util.List;
 
 public class JdbcTemplateTest {
     public static void main(String[] args) {
-        ApplicationContext applicationContext=new ClassPathXmlApplicationContext("application.xml");
+        ApplicationContext applicationContext=new ClassPathXmlApplicationContext("application2.xml");
         JdbcTemplate jdbcTemplate= (JdbcTemplate) applicationContext.getBean("jdbcTemplate");
-        String sql="create table account(id int primary key auto_increment,username varchar(25),balance double)";
+        String sql="create table user(id int primary key auto_increment,username varchar(25),password varchar(25),sex varchar(2))";
         jdbcTemplate.execute(sql);
-        System.out.println("create account finish");
+        System.out.println("create user finish");
 
 
     }
     @Test
-    public void  addAccountTest(){
-        ApplicationContext applicationContext=new ClassPathXmlApplicationContext("application.xml");
-        AccountDao accountDao= (AccountDao) applicationContext.getBean("AccountDao");
-        Account account=new Account();
-        account.setUsername("123");
-        account.setBalance(100.0);
-        int num=accountDao.addAccount(account);
+    public void  addUserTest(){
+        ApplicationContext applicationContext=new ClassPathXmlApplicationContext("application2.xml");
+        UserDao userDao= (UserDao) applicationContext.getBean("UserDao");
+        User user=new User(1,"123","1233","男");
+
+
+        int num=userDao.addUser(user);
         if(num>0){
             System.out.println("insert ok");
         }
     }
     @Test
     public void  updateAccountTest(){
-        ApplicationContext applicationContext=new ClassPathXmlApplicationContext("application.xml");
-        AccountDao accountDao= (AccountDao) applicationContext.getBean("AccountDao");
-        Account account=new Account();
-        account.setId(1);
-        account.setUsername("331");
-        account.setBalance(230.0);
-        int num=accountDao.updateAccount(account);
+        ApplicationContext applicationContext=new ClassPathXmlApplicationContext("application2.xml");
+        UserDao userDao= (UserDao) applicationContext.getBean("UserDao");
+      User user=new User(1,"34","315","nv");
+
+        int num=userDao.updateUser(user);
         if(num>0){
             System.out.println("update ok");
         }
     }
     @Test
     public void  deleteAccountTest(){
-        ApplicationContext applicationContext=new ClassPathXmlApplicationContext("application.xml");
-        AccountDao accountDao= (AccountDao) applicationContext.getBean("AccountDao");
+        ApplicationContext applicationContext=new ClassPathXmlApplicationContext("application2.xml");
+        UserDao userDao= (UserDao) applicationContext.getBean("UserDao");
 
-        int num=accountDao.deleteAccount(1);
+        int num=userDao.deleteUser(1);
         if(num>0){
             System.out.println("delete ok");
         }
     }
     @Test
     public void  queryAccountTest(){
-        ApplicationContext applicationContext=new ClassPathXmlApplicationContext("application.xml");
-        AccountDao accountDao= (AccountDao) applicationContext.getBean("AccountDao");
-        Account account=new Account();
-        account=accountDao.findAccountById(2);
-        System.out.println(account);
-        List<Account> x = accountDao.findAllAccount();
-        for (Account a:x)
+        ApplicationContext applicationContext=new ClassPathXmlApplicationContext("application2.xml");
+        UserDao userDao= (UserDao) applicationContext.getBean("UserDao");
+
+        User user=new User();
+        user =userDao.findUserById(1);
+        System.out.println(user);
+        List<User> users=userDao.findAllUser();
+
+        for (User a:users)
         {
             System.out.println(a);
         }
